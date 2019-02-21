@@ -10,7 +10,6 @@ agentHost=$1
 function authenticate(){
 	curl -i -X POST -H 'Content-Type: application/json-rpc' -d "{\"params\": {\"password\": \"$zbxPass\", \"user\": \"$zbxUser\"}, \"jsonrpc\":\"2.0\", \"method\": \"user.login\", \"id\": 0}" $zbxAPI | grep -Eo 'Set-Cookie: zbx_sessionid=.+' | head -n 1 | cut -d '=' -f 2 | tr -d '\r'
 }
-}
 authToken=$(authenticate)
 #Getting OS Linux ID
 templ=`curl -sS -i -X POST -H 'Content-Type: application/json-rpc' -d "{\"jsonrpc\":\"2.0\", \"method\": \"template.get\",\"params\":{ \"filter\": {\"host\" : [ \"Template OS Linux\"] } }, \"auth\":\"$authToken\",  \"id\": 1}" $zbxAPI`
